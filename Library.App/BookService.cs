@@ -2,23 +2,26 @@ namespace Library.App
 {
     public class BookService
     {
-        private readonly List<Book> _books = new();
+        private readonly IBookRepository _bookRepository;
 
-        public void AddBook(string title) => _books.Add(new Book(title));
+        public BookService(IBookRepository bookRepository) => _bookRepository = bookRepository;
 
-        public Book? FindBook(string title) => _books.FirstOrDefault(b => b.Title == title);
+        public void AddBook(string title) => _bookRepository.SaveBook(new Book(title));
 
-        public List<Book> GetAllBooks() => [.. _books];
+        public Book? FindBook(string title) => _bookRepository.FindBook(title);
 
-        public List<Book> GetAvailableBooks() => _books.Where(book => book.IsBorrowed).ToList();
+        public List<Book> GetAllBooks() => _bookRepository.GetAllBooks();
+
+        public List<Book> GetAvailableBooks() => _bookRepository.GetAvailableBooks();
 
         public bool BorrowBook(string title)
         {
-            var book = _books.FirstOrDefault(b => b.Title == title && !b.IsBorrowed);
+            var book = FindBook(title);
 
-            if (book != null)
+            if (book != null && !book.IsBorrowed)
             {
                 book.Borrow();
+                _bookRepository.SaveBook(book);
                 return true;
             }
             return false;
@@ -26,11 +29,12 @@ namespace Library.App
 
         public bool ReturnBook(string title)
         {
-            var book = _books.FirstOrDefault(b => b.Title == title && b.IsBorrowed);
+            var book = FindBook(title);
 
-            if (book != null)
+            if (book != null && book.IsBorrowed)
             {
                 book.Return();
+                _bookRepository.SaveBook(book);
                 return true;
             }
             return false;

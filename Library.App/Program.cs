@@ -1,5 +1,5 @@
 ﻿using Library.App;
-
-var bookService = new BookService();
+IBookRepository bookRepository = null;
+var bookService = new BookService(bookRepository);
 bookService.AddBook("1814");
 bookService.GetAvailableBooks().ForEach(Console.WriteLine);
