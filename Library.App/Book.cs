@@ -19,6 +19,21 @@ namespace Library.App
         {
             return $"Title = {Title}, isBorrowed={IsBorrowed}";
         }
+
+        public override bool Equals(object? obj)
+        {
+            if (obj is not Book other)
+                return false;
+
+            return Title == other.Title
+                && IsBorrowed == other.IsBorrowed;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Title, IsBorrowed);
+        }
+
     }
 
 }

@@ -6,13 +6,11 @@ public class BookServiceTests
     [Fact]
     public void Should_AddBook()
     {
-        var service = new BookService();
+        var mockBookRepository = new Mock<IBookRepository>();
+        var service = new BookService(mockBookRepository.Object);
         service.AddBook("C# in Depth");
-
-        var book = service.FindBook("C# in Depth");
-
-        Assert.NotNull(book);
-        Assert.Equal("C# in Depth", book!.Title);
+        // mockBookRepository.Verify(repo => repo.SaveBook(It.IsAny<Book>()));
+        mockBookRepository.Verify(repo => repo.SaveBook(new Book("C# in Depth")));
     }
 
     // TODO: implement Should_BorrowBookSuccessfully
