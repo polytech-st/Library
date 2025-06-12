@@ -10,7 +10,7 @@ namespace Library.App
 
         public List<Book> GetAllBooks() => [.. _books];
 
-        public List<Book> GetAvailableBooks() => _books.Where(book => book.IsBorrowed).ToList();
+        public List<Book> GetAvailableBooks() => _books.Where(book => !book.IsBorrowed).ToList();
 
         public bool BorrowBook(string title)
         {
