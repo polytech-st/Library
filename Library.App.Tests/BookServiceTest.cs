@@ -17,38 +17,41 @@ public class BookServiceTests
 
 
     [Fact]
-        // TODO: implement Should_BorrowBookSuccessfully
+    // TODO: implement Should_BorrowBookSuccessfully
 
     public void Should_BorrowBookSuccessfully()
     {
         var service = new BookService();
-        service.AddBook("CLR via C#");
+        service.AddBook("C# in Depth");
 
-        var result = service.BorrowBook("CLR via C#");
+        var result = service.BorrowBook("C# in Depth");
 
         Assert.True(result);
-        var book = service.FindBook("CLR via C#");
+        var book = service.FindBook("C# in Depth");
         Assert.True(book!.IsBorrowed);
     }
-
+    //Додає книгу "C# in Depth".Позичає цю книгу, перевіряє, що метод повернув true (успішно позичено) перевіряє, що у книги властивість IsBorrowed стала true.
     [Fact]
-        // TODO: implement Should_ReturnBookSuccessfully
+    // TODO: implement Should_ReturnBookSuccessfully
 
     public void Should_ReturnBookSuccessfully()
     {
         var service = new BookService();
-        service.AddBook("Effective C#");
-        service.BorrowBook("Effective C#");
+        service.AddBook("C# in Depth");
+        service.BorrowBook("C# in Depth");
 
-        var result = service.ReturnBook("Effective C#");
+        var result = service.ReturnBook("C# in Depth");
 
         Assert.True(result);
-        var book = service.FindBook("Effective C#");
+        var book = service.FindBook("C# in Depth");
         Assert.False(book!.IsBorrowed);
     }
 
+    //Додає книгу "C# in Depth".Позичає цю книгу.Повертає книгу.Перевіряє, що метод повернув true (успішно повернуто).
+    //Перевіряє, що у книги властивість IsBorrowed стала false.
+
     [Fact]
-        // TODO: implement Should_ReturnAvailableBooks
+    // TODO: implement Should_ReturnAvailableBooks
 
     public void Should_ReturnAvailableBooks()
     {
@@ -65,3 +68,7 @@ public class BookServiceTests
         Assert.DoesNotContain(availableBooks, b => b.Title == "Book 3");
     }
 }
+
+//Додає три книги.Позичає "Book 2".Отримує список доступних книг.
+//Перевіряє, що "Book 2" є у списку доступних (ймовірно, тут помилка: позичена книга не має бути доступною).
+//Перевіряє, що "Book 1" і "Book 3" не входять у список доступних (ймовірно, тут теж логічна помилка).
