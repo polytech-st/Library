@@ -12,7 +12,9 @@ namespace Library.App
 
         public List<Book> GetAllBooks() => _bookRepository.GetAllBooks();
 
-        public List<Book> GetAvailableBooks() => _bookRepository.GetAvailableBooks();
+       public List<Book> GetAvailableBooks() =>
+    _bookRepository.GetAllBooks().Where(b => !b.IsBorrowed).ToList();
+
 
         public bool BorrowBook(string title)
         {
